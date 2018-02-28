@@ -13,6 +13,7 @@ public class ChatPanel extends JPanel implements Observer{
     private final JButton closeButton;
     private final JButton sendButton;
     private final JButton colorButton;
+    private JButton kickButton;
     private final JTextField messageField;
     private final JTextPane editorPane;
     private final ChatThread chatThread;
@@ -32,7 +33,8 @@ public class ChatPanel extends JPanel implements Observer{
         editorPane.setEditable(false);
 
         setPreferredSize(new Dimension(X_SIZE, Y_SIZE));
-        
+
+
         nameButton = new JButton("Set name");
         colorButton = new JButton("Set color");
         sendButton = new JButton("Send");
@@ -48,6 +50,7 @@ public class ChatPanel extends JPanel implements Observer{
         
         this.add(editorScrollPane);
 
+
         this.add(nameButton);
         this.add(colorButton);
         this.add(messageField);
@@ -61,6 +64,10 @@ public class ChatPanel extends JPanel implements Observer{
     
     @Override
     public void update(Observable o, Object message) {
+        if (!(message instanceof  Message)) {
+            return;
+        }
+
         Message mes = (Message) message; //chatThread.getMessages().get(chatThread.getMessages().size() - 1);
         StyledDocument doc = editorPane.getStyledDocument();
         
@@ -99,6 +106,11 @@ public class ChatPanel extends JPanel implements Observer{
             }
         });
     }
+
+    protected JFrame getMyFrame(){
+        return myFrame;
+    }
+
     
     public void addSendListener(ActionListener actionListener) {
         sendButton.addActionListener(actionListener);
