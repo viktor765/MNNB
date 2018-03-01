@@ -38,9 +38,6 @@ public class TesterST {
         chatThread.setName("Kalle");
         chatThread.setColor("0000ff");
 
-        chatThread.setName("Kalle");
-        chatThread.setColor("0000ff");
-
         chatThread.sendMessage("Ett meddelande från Kalle.");
         chatThread.sendMessage("Ett till meddelande från Kalle.");
 

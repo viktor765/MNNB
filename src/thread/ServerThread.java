@@ -25,6 +25,7 @@ public class ServerThread implements Runnable, Observer {
     public List<InetAddress> getAddresses() {
         return clientThreads.stream()
                 .map(connectionThread -> connectionThread.getAddress())
+                //.filter(InetAddress::isAnyLocalAddress)//Är kommenterat av testskäl
                 .collect(Collectors.toList());
     }
 

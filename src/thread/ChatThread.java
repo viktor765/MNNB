@@ -82,18 +82,19 @@ public class ChatThread extends Observable implements Runnable {
             }
         }
 
-        done = true;
-
         try {
+            Thread.sleep(500);
             socket.close();
             out.close();
             in.close();
-        } catch (IOException e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
 
+        done = true;//för säkerhets skull map isDone()
+
         setChanged();
-        notifyObservers();
+        notifyObservers("done");
     }
 
     public ChatThread(Socket socket) throws IOException {

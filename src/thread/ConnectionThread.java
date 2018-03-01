@@ -76,15 +76,19 @@ public class ConnectionThread extends Observable implements Runnable {
             }
         }
 
-        done = true;
-
         try {
-            in.close();
-            out.close();
+            Thread.sleep(500);
             socket.close();
-        } catch (IOException e) {
+            out.close();
+            in.close();
+        } catch (Exception e) {
             e.printStackTrace();
         }
+
+        done = true;//för säkerhets skull map isDone()
+
+        setChanged();
+        notifyObservers("done");
     }
 
     public ConnectionThread(Socket socket) throws IOException {
