@@ -25,7 +25,7 @@ public class TesterST {
 
         Thread.sleep(1000);
 
-        System.exit(1);
+        //System.exit(1);
     }
 
     private static void test() throws Exception {
