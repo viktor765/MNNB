@@ -30,7 +30,7 @@ public class TesterST {
 
     private static void test() throws Exception {
         Socket clientSocket = new Socket("127.0.0.1", port);
-        chatThread = new HostChatThread(clientSocket, serverThread);
+        chatThread = HostChatThread.getInstance(clientSocket, serverThread);
         chatThread.addObserver(chatObs);
 
         new Thread(chatThread).start();
