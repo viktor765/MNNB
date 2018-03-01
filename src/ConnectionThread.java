@@ -10,28 +10,16 @@ import java.net.Socket;
 import java.net.SocketException;
 import java.util.Observable;
 
-public class ChatThread extends Observable implements Runnable {
+public class ConnectionThread extends Observable implements Runnable {
     private Socket socket;
     private final PrintWriter out;
 
-    private String name = "player";
-    private Color color = Color.GREEN;
-
-    public void setName(String name) {
-        this.name = name;
+    public void sendString(String str) {
+        out.println(str);
     }
 
-    public void setColor(String colStr) {
-        this.color = new Color(Integer.parseInt(colStr, 16));
-    }
-
-    public void sendMessage(String msg) {
-        out.println(new Message(msg, name, color).toXML());
-    }
-
-    public void disconnect() {
-        out.println("<message sender=\"" + name + "\"><disconnect/></message>");
-        done = true;
+    public String getIP() {
+        return socket.getInetAddress().getHostAddress();
     }
 
     private boolean done = false;
@@ -80,13 +68,13 @@ public class ChatThread extends Observable implements Runnable {
         try {
             in.close();
             out.close();
-            socket.close();//räcker med bara denna?
+            socket.close();
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
 
-    public ChatThread(Socket socket) throws IOException {
+    public ConnectionThread(Socket socket) throws IOException {
         this.socket = socket;
 
         out = new PrintWriter(socket.getOutputStream(), true);

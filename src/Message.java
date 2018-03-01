@@ -31,6 +31,10 @@ public class Message {
     }
     
     public String toXML() {
+        if(disconnect) {
+            return "<message sender=\"" + sender + "\"><disconnect/></message>";
+        }
+
         return "<message sender=\"" + sender + "\">"
             + "<text color=\"" + color.getRGB() + "\">" 
             + text.replaceAll(">", "&gt;")
@@ -82,5 +86,15 @@ public class Message {
                 doc.getElementsByTagName("text").item(0)
                 .getAttributes().getNamedItem("color")
                 .getTextContent()));
+    }
+
+    @Override
+    public String toString() {
+        return "Message{" +
+                "color=" + color +
+                ", text='" + text + '\'' +
+                ", sender='" + sender + '\'' +
+                ", disconnect=" + disconnect +
+                '}';
     }
 }
