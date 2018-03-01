@@ -17,7 +17,6 @@ public class ChatPanel extends JPanel implements Observer{
     private final JButton closeButton;
     private final JButton sendButton;
     private final JButton colorButton;
-    private JButton kickButton;
     private final JTextField messageField;
     private final JTextPane editorPane;
     private final ChatThread chatThread;

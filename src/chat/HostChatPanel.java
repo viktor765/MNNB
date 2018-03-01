@@ -1,30 +1,34 @@
 package chat;
 
-import chat.ChatPanel;
-import thread.ChatThread;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.net.InetAddress;
+import java.net.UnknownHostException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import thread.HostChatThread;
 
 public class HostChatPanel extends ChatPanel {
     private final JButton kickButton;
-    private String[] ips = {"hola"};
+    private final HostChatThread chatThread;
 
-    public HostChatPanel(ChatThread chatThread) {
-        super(chatThread);
+
+    public HostChatPanel(HostChatThread HostChatThread) {
+        super(HostChatThread);
+        this.chatThread = HostChatThread;
         kickButton = new JButton("Kick");
         this.add(kickButton);
     }
 
     public void addKickListener(ActionListener actionListener) {
         kickButton.addActionListener((ActionEvent e) -> {
-            String kickedIp = (String) JOptionPane.showInputDialog(this.getMyFrame(), "Choose client to kick:", "Kick",
-                    JOptionPane.QUESTION_MESSAGE, null, ips, ips[0]);
-
-            if(kickedIp != null){
-                actionListener.actionPerformed(new ActionEvent(kickButton, (int) AWTEvent.TEXT_EVENT_MASK, kickedIp));
+            InetAddress kickedIp = (InetAddress) JOptionPane.showInputDialog(this.getMyFrame(), "Choose client to kick:", "Kick",
+                    JOptionPane.QUESTION_MESSAGE, null, chatThread.getAddresses().toArray(), chatThread.getAddresses().get(0));
+            if(kickedIp != null) {
+                actionListener.actionPerformed(new ActionEvent(kickButton, (int) AWTEvent.TEXT_EVENT_MASK, kickedIp.toString()));
             }
         });
     }

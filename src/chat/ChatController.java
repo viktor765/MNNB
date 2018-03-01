@@ -4,6 +4,10 @@ import thread.ChatThread;
 import thread.HostChatThread;
 
 import java.awt.event.ActionEvent;
+import java.net.InetAddress;
+import java.net.UnknownHostException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class ChatController {
     public ChatController(ChatThread chatThread) {
@@ -16,7 +20,13 @@ public class ChatController {
         this.addListeners(hostChatPanel, hostChatThread);
 
         //chatThread.kick tar nu en InetAddress från chatThread.getAddresses()
-        //hostChatPanel.addKickListener((ActionEvent e) -> hostChatThread.kick(e.getActionCommand()));
+        hostChatPanel.addKickListener((ActionEvent e) -> {
+            try {
+                hostChatThread.kick(InetAddress.getByName(e.getActionCommand()));
+            } catch (UnknownHostException ex) {
+                System.out.println("No an IP address");
+            }
+        });
     }
 
     private void addListeners(ChatPanel chatPanel, ChatThread chatThread){
