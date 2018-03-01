@@ -6,6 +6,8 @@ import java.net.Socket;
 import java.util.*;
 
 public class HostChatThread extends ChatThread {
+    private static final String localHost = "127.0.0.1";
+
     private final ServerThread serverThread;
 
     public void kick(InetAddress address) {
@@ -23,9 +25,11 @@ public class HostChatThread extends ChatThread {
 
     private static HostChatThread instance = null;
 
-    public static HostChatThread getInstance(Socket socket, ServerThread serverThread) throws IOException {
+    public static HostChatThread getInstance(ServerThread serverThread, int port) throws IOException {
         if(instance == null) {
+            Socket socket = new Socket(localHost, port);
             instance = new HostChatThread(socket, serverThread);
+
             return instance;
         } else {
             throw new IOException("HostChatThread instance already exists.");
