@@ -1,17 +1,14 @@
 package test;
 
 import chat.ChatController;
-import java.net.InetAddress;
-import java.net.Socket;
-import java.util.Observer;
-import javax.swing.JFrame;
+import main.MainModel;
 import thread.ChatThread;
 import thread.HostChatThread;
-import thread.ServerThread;
+
+import java.util.Observer;
 
 
 public class TestKick {
-    private static ServerThread serverThread;
     private static ChatThread chatThread;
 
     private static final int port = 4444;
@@ -19,23 +16,17 @@ public class TestKick {
     private static Observer chatObs = (o, arg) -> System.out.println("chatView: " + arg);
 
     public static void main(String[] args) throws Exception {
-        serverThread = ServerThread.getInstance(port);
-        Thread thread = new Thread(serverThread);
-        thread.start();
+        chatThread = MainModel.getInstance(port).getHostChatThread();
+        chatThread.addObserver(chatObs);
+        new Thread(chatThread).start();
 
         test();
 
         Thread.sleep(1000);
-
-        //System.exit(1);
+        System.exit(1);
     }
+
     private static void test() throws Exception {
-        Socket clientSocket = new Socket("127.0.0.1", port);
-        chatThread = HostChatThread.getInstance(clientSocket, serverThread);
-        chatThread.addObserver(chatObs);
-
-        new Thread(chatThread).start();
-
         chatThread.setName("Kalle");
         chatThread.setColor("0000ff");
 
@@ -43,8 +34,5 @@ public class TestKick {
         chatThread.sendMessage("Ett till meddelande från Kalle.");
         
         ChatController chatController = new ChatController((HostChatThread)chatThread);
-        
-        
-        InetAddress address = serverThread.getAddresses().get(0);
     }
 }

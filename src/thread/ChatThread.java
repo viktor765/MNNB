@@ -69,13 +69,13 @@ public class ChatThread extends Observable implements Runnable {
             } catch (SocketException e) {
                 done = true;
 
-                System.out.println("Socket closed");
+                System.err.println("Socket closed");
                 e.printStackTrace();
             } catch (IOException e) {
-                System.out.println("readLine failed");
+                System.err.println("readLine failed");
                 e.printStackTrace();
             } catch (SAXException e) {
-                System.out.println("Badly formated message");
+                System.err.println("Badly formatted message");
                 e.printStackTrace();
             } catch (ParserConfigurationException e) {
                 e.printStackTrace();
