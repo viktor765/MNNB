@@ -1,5 +1,6 @@
 package thread;
 
+import message.Message;
 import org.xml.sax.SAXException;
 
 import javax.xml.parsers.ParserConfigurationException;
@@ -18,6 +19,10 @@ public class ChatThread extends Observable implements Runnable {
 
     private String name = "player";
     private Color color = Color.GREEN;
+
+    public boolean isDone() {
+        return done;
+    }
 
     public void setName(String name) {
         this.name = name;
@@ -80,12 +85,15 @@ public class ChatThread extends Observable implements Runnable {
         done = true;
 
         try {
-            in.close();
+            socket.close();
             out.close();
-            socket.close();//räcker med bara denna?
+            in.close();
         } catch (IOException e) {
             e.printStackTrace();
         }
+
+        setChanged();
+        notifyObservers();
     }
 
     public ChatThread(Socket socket) throws IOException {

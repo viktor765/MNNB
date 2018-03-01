@@ -1,33 +1,36 @@
 package test;
 
-import java.awt.*;
-import java.net.ServerSocket;
+import thread.ChatThread;
+import thread.HostChatThread;
+import thread.ServerThread;
+
+import java.net.InetAddress;
 import java.net.Socket;
 import java.util.Observer;
 
 public class TesterST {
     private static ServerThread serverThread;
     private static ChatThread chatThread;
-    private static ChatThread chatThread2;
 
-    private static final int port = 4443;
+    private static final int port = 4444;
 
-    private static Observer chatObs = (o, arg) -> System.out.println("chat: " + arg);
+    private static Observer chatObs = (o, arg) -> System.out.println("chatView: " + arg);
 
     public static void main(String[] args) throws Exception {
-        serverThread = new ServerThread(port);
+        serverThread = ServerThread.getInstance(port);
         Thread thread = new Thread(serverThread);
         thread.start();
 
         test();
 
         Thread.sleep(1000);
+
         System.exit(1);
     }
 
     private static void test() throws Exception {
         Socket clientSocket = new Socket("127.0.0.1", port);
-        chatThread = new ChatThread(clientSocket);
+        chatThread = new HostChatThread(clientSocket, serverThread);
         chatThread.addObserver(chatObs);
 
         new Thread(chatThread).start();
@@ -41,9 +44,18 @@ public class TesterST {
         chatThread.sendMessage("Ett meddelande från Kalle.");
         chatThread.sendMessage("Ett till meddelande från Kalle.");
 
-        System.out.println(serverThread.getIPs().get(0));
+        Thread.sleep(2000);
+        InetAddress address = serverThread.getAddresses().get(0);
+        System.out.println(address);
+        ((HostChatThread)chatThread).kick(address);
 
-        Thread.sleep(1000);
+        Thread.sleep(3000);
+
+        chatThread.sendMessage("Meddelande efter kick.");
+
         chatThread.disconnect();
+        Thread.sleep(1000);
+
+        chatThread.sendMessage("Meddelande efter nedkoppling.");
     }
 }

@@ -1,5 +1,8 @@
 package chat;
 
+import thread.ChatThread;
+import thread.HostChatThread;
+
 import java.awt.event.ActionEvent;
 
 public class ChatController {
@@ -11,7 +14,9 @@ public class ChatController {
     public ChatController(HostChatThread hostChatThread){
         HostChatPanel hostChatPanel = new HostChatPanel(hostChatThread);
         this.addListeners(hostChatPanel, hostChatThread);
-        hostChatPanel.addKickListener((ActionEvent e) -> hostChatThread.kick(e.getActionCommand()));
+
+        //chatThread.kick tar nu en InetAddress från chatThread.getAddresses()
+        //hostChatPanel.addKickListener((ActionEvent e) -> hostChatThread.kick(e.getActionCommand()));
     }
 
     private void addListeners(ChatPanel chatPanel, ChatThread chatThread){

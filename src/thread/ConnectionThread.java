@@ -1,13 +1,14 @@
 package thread;
 
+import message.Message;
 import org.xml.sax.SAXException;
 
 import javax.xml.parsers.ParserConfigurationException;
-import java.awt.*;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
+import java.net.InetAddress;
 import java.net.Socket;
 import java.net.SocketException;
 import java.util.Observable;
@@ -20,8 +21,18 @@ public class ConnectionThread extends Observable implements Runnable {
         out.println(str);
     }
 
-    public String getIP() {
-        return socket.getInetAddress().getHostAddress();
+    public InetAddress getAddress() {
+        return socket.getInetAddress();
+    }
+
+    public void disconnect() {
+        //ev skicka ett meddelande
+        done = true;
+        try {
+            socket.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     private boolean done = false;
