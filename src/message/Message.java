@@ -1,3 +1,5 @@
+package message;
+
 import java.awt.Color;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
@@ -90,7 +92,7 @@ public class Message {
 
     @Override
     public String toString() {
-        return "Message{" +
+        return "message.Message{" +
                 "color=" + color +
                 ", text='" + text + '\'' +
                 ", sender='" + sender + '\'' +

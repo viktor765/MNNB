@@ -1,3 +1,5 @@
+package chat;
+
 import java.awt.AWTEvent;
 import java.awt.Dimension;
 import java.awt.event.ActionEvent;
@@ -6,6 +8,8 @@ import java.util.Observable;
 import java.util.Observer;
 import javax.swing.*;
 import javax.swing.text.*;
+import thread.ChatThread;
+import message.Message;
 
 public class ChatPanel extends JPanel implements Observer{
     private final JFrame myFrame;
@@ -64,7 +68,7 @@ public class ChatPanel extends JPanel implements Observer{
     
     @Override
     public void update(Observable o, Object message) {
-        if (!(message instanceof  Message)) {
+        if (!(message instanceof Message)) {
             return;
         }
 

@@ -1,3 +1,6 @@
+import chat.ChatController;
+import thread.ChatThread;
+
 import java.io.IOException;
 
 public class Frame {

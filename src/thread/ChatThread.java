@@ -1,3 +1,5 @@
+package thread;
+
 import org.xml.sax.SAXException;
 
 import javax.xml.parsers.ParserConfigurationException;
@@ -10,16 +12,28 @@ import java.net.Socket;
 import java.net.SocketException;
 import java.util.Observable;
 
-public class ConnectionThread extends Observable implements Runnable {
+public class ChatThread extends Observable implements Runnable {
     private Socket socket;
     private final PrintWriter out;
 
-    public void sendString(String str) {
-        out.println(str);
+    private String name = "player";
+    private Color color = Color.GREEN;
+
+    public void setName(String name) {
+        this.name = name;
     }
 
-    public String getIP() {
-        return socket.getInetAddress().getHostAddress();
+    public void setColor(String colStr) {
+        this.color = new Color(Integer.parseInt(colStr, 16));
+    }
+
+    public void sendMessage(String msg) {
+        out.println(new Message(msg, name, color).toXML());
+    }
+
+    public void disconnect() {
+        out.println("<message sender=\"" + name + "\"><disconnect/></message>");
+        done = true;
     }
 
     private boolean done = false;
@@ -68,13 +82,13 @@ public class ConnectionThread extends Observable implements Runnable {
         try {
             in.close();
             out.close();
-            socket.close();
+            socket.close();//räcker med bara denna?
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
 
-    public ConnectionThread(Socket socket) throws IOException {
+    public ChatThread(Socket socket) throws IOException {
         this.socket = socket;
 
         out = new PrintWriter(socket.getOutputStream(), true);

@@ -1,3 +1,8 @@
+package chat;
+
+import chat.ChatPanel;
+import thread.ChatThread;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;

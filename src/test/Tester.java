@@ -1,3 +1,9 @@
+package test;
+
+import message.Message;
+import thread.ChatThread;
+import thread.ConnectionThread;
+
 import java.awt.*;
 import java.net.ServerSocket;
 import java.net.Socket;
