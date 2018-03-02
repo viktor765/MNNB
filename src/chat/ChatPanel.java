@@ -23,10 +23,10 @@ public class ChatPanel extends JPanel implements Observer{
     private final JTextPane editorPane;
     private final ChatThread chatThread;
     
-    private static final int X_SIZE = 800;  
-    private static final int Y_SIZE = 600;
-    private static final int SCROLLPANE_X_SIZE = 700;
-    private static final int SCROLLPANE_Y_SIZE = 500;
+    private static final int X_SIZE = 400;
+    private static final int Y_SIZE = 450;
+    private static final int SCROLLPANE_X_SIZE = 350;
+    private static final int SCROLLPANE_Y_SIZE = 300;
 
     public ChatPanel(ChatThread chatThread) {
         this.chatThread = chatThread;
