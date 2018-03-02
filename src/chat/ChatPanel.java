@@ -92,7 +92,7 @@ public class ChatPanel extends JPanel implements Observer{
     
     public void addNameListener(ActionListener actionListener) {
         nameButton.addActionListener((ActionEvent e) -> {
-            String name = JOptionPane.showInputDialog(myFrame, "Ange namn:", null);
+            String name = JOptionPane.showInputDialog(myFrame, "Enter name:", null);
 
             if(name != null) {
                 actionListener.actionPerformed(new ActionEvent(colorButton, (int) AWTEvent.TEXT_EVENT_MASK, name));
@@ -102,7 +102,7 @@ public class ChatPanel extends JPanel implements Observer{
     
     public void addColorListener(ActionListener actionListener) {
         colorButton.addActionListener((ActionEvent e) -> {
-            String colStr = JOptionPane.showInputDialog(myFrame, "Ange färgsträng(hex):", null);
+            String colStr = JOptionPane.showInputDialog(myFrame, "Enter color string(hex):", null);
 
             if(colStr != null) {
                 actionListener.actionPerformed(new ActionEvent(colorButton, (int) AWTEvent.TEXT_EVENT_MASK, colStr));

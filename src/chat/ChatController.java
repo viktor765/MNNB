@@ -8,23 +8,11 @@ import java.net.InetAddress;
 import java.net.UnknownHostException;
 
 public class ChatController {
-    public ChatController(ChatThread chatThread) {
-        ChatPanel chatPanel = new ChatPanel(chatThread);
-        this.addListeners(chatPanel, chatThread);
-    }
+    private final ChatThread chatThread;
+    private final ChatPanel chatPanel;
 
-    public ChatController(HostChatThread hostChatThread) {
-        HostChatPanel hostChatPanel = HostChatPanel.getInstance(hostChatThread);
-        this.addListeners(hostChatPanel, hostChatThread);
-
-        //chatThread.kick tar nu en InetAddress från chatThread.getAddresses()
-        hostChatPanel.addKickListener((ActionEvent e) -> {
-            try {
-                hostChatThread.kick(InetAddress.getByName(e.getActionCommand()));
-            } catch (UnknownHostException ex) {
-                System.out.println("Not an IP address");
-            }
-        });
+    protected ChatPanel getChatPanel() {
+        return chatPanel;
     }
 
     private void addListeners(ChatPanel chatPanel, ChatThread chatThread) {
@@ -38,7 +26,31 @@ public class ChatController {
         chatPanel.addColorListener((ActionEvent e) -> chatThread.setColor(e.getActionCommand()));
 
         chatPanel.addSendListener((ActionEvent e) -> chatThread.sendMessage(chatPanel.getMessageFieldText()));
+    }
+
+    protected ChatController(ChatThread chatThread, ChatPanel chatPanel) {
+        this.chatThread = chatThread;
+        this.chatPanel = chatPanel;
 
         chatThread.addObserver(chatPanel);
+
+        addListeners(chatPanel, chatThread);
+    }
+
+    public ChatController(ChatThread chatThread) {
+        this(chatThread, new ChatPanel(chatThread));
+    }
+
+    public ChatController(HostChatThread hostChatThread) {
+        this(hostChatThread, HostChatPanel.getInstance(hostChatThread));
+
+        //chatThread.kick tar nu en InetAddress från chatThread.getAddresses()
+        ((HostChatPanel)getChatPanel()).addKickListener((ActionEvent e) -> {
+            try {
+                hostChatThread.kick(InetAddress.getByName(e.getActionCommand()));
+            } catch (UnknownHostException ex) {
+                System.out.println("Not an IP address");
+            }
+        });
     }
 }

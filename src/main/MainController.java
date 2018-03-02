@@ -1,6 +1,7 @@
 package main;
 
 import chat.ChatController;
+import chat.HostChatController;
 import thread.ChatThread;
 import thread.MainModel;
 
@@ -28,7 +29,7 @@ public class MainController {
         MainWindow mainWindow = MainWindow.getInstance();
         mainWindow.addConnectButtonListener(onConnectButtonClick);
 
-        ChatController hostChatController = new ChatController(mainModel.getHostChatThread());
+        HostChatController hostChatController = HostChatController.getInstance(mainModel.getHostChatThread());
     }
 
     private static MainController instance = null;
