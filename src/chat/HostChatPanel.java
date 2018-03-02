@@ -26,6 +26,7 @@ public class HostChatPanel extends ChatPanel {
     private HostChatPanel(HostChatThread HostChatThread) {
         super(HostChatThread);
         this.chatThread = HostChatThread;
+        getMyFrame().setTitle("Chat, local server");
         kickButton = new JButton("Kick");
         this.add(kickButton);
     }

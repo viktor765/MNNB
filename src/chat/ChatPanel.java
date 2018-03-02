@@ -1,15 +1,17 @@
 package chat;
 
-import java.awt.AWTEvent;
-import java.awt.Dimension;
+import message.Message;
+import thread.ChatThread;
+
+import javax.swing.*;
+import javax.swing.text.SimpleAttributeSet;
+import javax.swing.text.StyleConstants;
+import javax.swing.text.StyledDocument;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.Observable;
 import java.util.Observer;
-import javax.swing.*;
-import javax.swing.text.*;
-import thread.ChatThread;
-import message.Message;
 
 public class ChatPanel extends JPanel implements Observer{
     private final JFrame myFrame;
@@ -29,7 +31,7 @@ public class ChatPanel extends JPanel implements Observer{
     public ChatPanel(ChatThread chatThread) {
         this.chatThread = chatThread;
         
-        myFrame = new JFrame("wIM");
+        myFrame = new JFrame("Chat, remote server at: " + chatThread.getHostIP());
         myFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
                        
         editorPane = new JTextPane();

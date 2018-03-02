@@ -24,6 +24,10 @@ public class ChatThread extends Observable implements Runnable {
         return done;
     }
 
+    public String getHostIP() {
+        return socket.getInetAddress().getHostAddress();
+    }
+
     public void setName(String name) {
         this.name = name;
     }

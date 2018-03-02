@@ -21,6 +21,9 @@ public class HostChatThread extends ChatThread {
     private HostChatThread(Socket socket, ServerThread serverThread) throws IOException {
         super(socket);
         this.serverThread = serverThread;
+
+        setName("host");
+        setColor("0000ff");
     }
 
     private static HostChatThread instance = null;
