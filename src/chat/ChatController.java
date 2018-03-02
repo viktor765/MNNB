@@ -14,7 +14,7 @@ public class ChatController {
     }
 
     public ChatController(HostChatThread hostChatThread){
-        HostChatPanel hostChatPanel = new HostChatPanel(hostChatThread);
+        HostChatPanel hostChatPanel = HostChatPanel.getInstance(hostChatThread);
         this.addListeners(hostChatPanel, hostChatThread);
 
         //chatThread.kick tar nu en InetAddress från chatThread.getAddresses()
