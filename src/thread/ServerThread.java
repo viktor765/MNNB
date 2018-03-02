@@ -9,7 +9,7 @@ import java.net.Socket;
 import java.util.*;
 import java.util.stream.Collectors;
 
-public class ServerThread implements Runnable, Observer {
+class ServerThread implements Runnable, Observer {
     private ServerSocket serverSocket;
     private final List<ConnectionThread> clientThreads = new LinkedList<>();
 

@@ -6,8 +6,6 @@ import thread.HostChatThread;
 import java.awt.event.ActionEvent;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 public class ChatController {
     public ChatController(ChatThread chatThread) {

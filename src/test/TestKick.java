@@ -1,7 +1,7 @@
 package test;
 
 import chat.ChatController;
-import main.MainModel;
+import thread.MainModel;
 import thread.ChatThread;
 import thread.HostChatThread;
 

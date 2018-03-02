@@ -13,7 +13,7 @@ import java.net.Socket;
 import java.net.SocketException;
 import java.util.Observable;
 
-public class ConnectionThread extends Observable implements Runnable {
+class ConnectionThread extends Observable implements Runnable {
     private Socket socket;
     private final PrintWriter out;
 

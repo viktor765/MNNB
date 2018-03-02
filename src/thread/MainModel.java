@@ -1,8 +1,4 @@
-package main;
-
-import thread.ChatThread;
-import thread.HostChatThread;
-import thread.ServerThread;
+package thread;
 
 import java.io.IOException;
 import java.net.Socket;
