@@ -39,7 +39,6 @@ public class ChatPanel extends JPanel implements Observer{
 
         setPreferredSize(new Dimension(X_SIZE, Y_SIZE));
 
-
         nameButton = new JButton("Set name");
         colorButton = new JButton("Set color");
         sendButton = new JButton("Send");
@@ -66,7 +65,6 @@ public class ChatPanel extends JPanel implements Observer{
         myFrame.setVisible(true);
     }
     
-    
     @Override
     public void update(Observable o, Object message) {
         if (!(message instanceof Message)) {
@@ -80,13 +78,13 @@ public class ChatPanel extends JPanel implements Observer{
         StyleConstants.setForeground(keyWord, mes.getColor());
 
         try {
-            if (mes.isDisconnect()) {
+            if(mes.isDisconnect()) {
                 doc.insertString(doc.getLength(), mes.getSender() + " har loggat ut.\n", keyWord);
             } else {
                 doc.insertString(doc.getLength(), mes.getSender()
                         + ": " + mes.getText() + "\n", keyWord);
             }
-        } catch (Exception e) {
+        } catch(Exception e) {
             System.out.println(e);
         }
         editorPane.setStyledDocument(doc);
@@ -112,11 +110,10 @@ public class ChatPanel extends JPanel implements Observer{
         });
     }
 
-    protected JFrame getMyFrame(){
+    protected JFrame getMyFrame() {
         return myFrame;
     }
 
-    
     public void addSendListener(ActionListener actionListener) {
         sendButton.addActionListener(actionListener);
     }

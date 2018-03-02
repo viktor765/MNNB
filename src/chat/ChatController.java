@@ -13,7 +13,7 @@ public class ChatController {
         this.addListeners(chatPanel, chatThread);
     }
 
-    public ChatController(HostChatThread hostChatThread){
+    public ChatController(HostChatThread hostChatThread) {
         HostChatPanel hostChatPanel = HostChatPanel.getInstance(hostChatThread);
         this.addListeners(hostChatPanel, hostChatThread);
 
@@ -22,12 +22,12 @@ public class ChatController {
             try {
                 hostChatThread.kick(InetAddress.getByName(e.getActionCommand()));
             } catch (UnknownHostException ex) {
-                System.out.println("No an IP address");
+                System.out.println("Not an IP address");
             }
         });
     }
 
-    private void addListeners(ChatPanel chatPanel, ChatThread chatThread){
+    private void addListeners(ChatPanel chatPanel, ChatThread chatThread) {
         chatPanel.addCloseListener((ActionEvent e) -> {
             chatThread.disconnect();
 
