@@ -14,15 +14,11 @@ import java.net.SocketException;
 import java.util.Observable;
 
 public class ChatThread extends Observable implements Runnable {
-    private Socket socket;
+    private final Socket socket;
     private final PrintWriter out;
 
     private String name = "player";
     private Color color = Color.GREEN;
-
-    public boolean isDone() {
-        return done;
-    }
 
     public String getHostIP() {
         return socket.getInetAddress().getHostAddress();
