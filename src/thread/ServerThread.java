@@ -1,8 +1,10 @@
 package thread;
 
 import message.Message;
+import org.xml.sax.SAXException;
 import thread.request.IncomingRequest;
 
+import javax.xml.parsers.ParserConfigurationException;
 import java.awt.*;
 import java.io.IOException;
 import java.net.InetAddress;
@@ -76,14 +78,27 @@ class ServerThread extends Observable implements Runnable, Observer {
         }
     }
 
+    private void sendToAll(Message message) {
+        for(ConnectionThread c : clientThreads) {
+            c.sendString(message.toXML());
+        }
+    }
+
     @Override
     public void update(Observable o, Object arg) {
         if(arg instanceof Message && o instanceof ConnectionThread) {
-            for(ConnectionThread c : clientThreads) {
-                c.sendString(((Message)arg).toXML());
-            }
+            sendToAll((Message)arg);
         } else if(o instanceof ConnectionThread && arg.equals("done")) {
             clientThreads.remove((ConnectionThread)o);
+            try {
+                sendToAll(new Message("<message sender=\"" + ((ConnectionThread)o).getAddress().toString() + "\"><disconnect/></message>"));
+            } catch (ParserConfigurationException e) {
+                e.printStackTrace();
+            } catch (IOException e) {
+                e.printStackTrace();
+            } catch (SAXException e) {
+                e.printStackTrace();
+            }
         }
     }
 
