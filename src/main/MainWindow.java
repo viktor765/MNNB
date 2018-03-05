@@ -48,14 +48,14 @@ public class MainWindow extends JPanel implements Observer {
                 "Incoming connection",
                 JOptionPane.YES_NO_OPTION
         );
-        if(dialogResult == JOptionPane.YES_OPTION) {
-            try {
+        try {
+            if (dialogResult == JOptionPane.YES_OPTION) {
                 MainModel.getInstance(4444).accept(incomingRequest);
-            } catch (IOException e) {
-                e.printStackTrace();
+            } else {
+                incomingRequest.deny();
             }
-        } else {
-            System.out.println("You did not accept");
+        } catch (IOException e) {
+            e.printStackTrace();
         }
     }
 
