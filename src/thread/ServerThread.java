@@ -82,6 +82,8 @@ class ServerThread extends Observable implements Runnable, Observer {
             for(ConnectionThread c : clientThreads) {
                 c.sendString(((Message)arg).toXML());
             }
+        } else if(o instanceof ConnectionThread && arg.equals("done")) {
+            clientThreads.remove((ConnectionThread)o);
         }
     }
 
