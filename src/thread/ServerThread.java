@@ -19,7 +19,7 @@ class ServerThread extends Observable implements Runnable, Observer {
     private final List<ConnectionThread> clientThreads = new LinkedList<>();
 
     public void kickClient(InetAddress address) {
-        System.out.println("kicked");
+        System.out.println("Kicked " + address);
 
         for (ConnectionThread client : clientThreads) {
             if(client.getAddress().toString().equals(address.toString())) {

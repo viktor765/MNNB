@@ -24,9 +24,15 @@ public class HostChatPanel extends ChatPanel {
 
             Object[] a = addresses.toArray();
 
+            String defaultAddress = "";
+
+            if(!addresses.isEmpty()) {
+                defaultAddress = addresses.get(0);
+            }
+
             InetAddress kickedIp = (InetAddress) JOptionPane.showInputDialog(
                     this.getMyFrame(), "Choose client to kick:", "Kick",
-                    JOptionPane.QUESTION_MESSAGE, null, chatThread.getAddresses().toArray(), addresses.get(0));
+                    JOptionPane.QUESTION_MESSAGE, null, chatThread.getAddresses().toArray(), defaultAddress);
             if(kickedIp != null) {
                 actionListener.actionPerformed(new ActionEvent(
                         kickButton, (int) AWTEvent.TEXT_EVENT_MASK, kickedIp.toString().substring(1)
@@ -41,6 +47,8 @@ public class HostChatPanel extends ChatPanel {
         getMyFrame().setTitle("Chat, local server");
         kickButton = new JButton("Kick");
         this.add(kickButton);
+
+        getMyFrame().setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     }
 
     private static HostChatPanel instance = null;

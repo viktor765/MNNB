@@ -32,8 +32,7 @@ public class ChatPanel extends JPanel implements Observer{
         this.chatThread = chatThread;
         
         myFrame = new JFrame("Chat, remote server at: " + chatThread.getHostIP());
-        myFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-                       
+
         editorPane = new JTextPane();
         editorPane.setEditable(false);
 
