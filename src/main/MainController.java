@@ -28,7 +28,7 @@ public class MainController {
 
     private MainController() throws IOException {
         int port = new PortPrompt().getPort();
-        MainModel mainModel = MainModel.getInstance(5001);
+        MainModel mainModel = MainModel.getInstance(port);
         MainWindow mainWindow = MainWindow.getInstance();
         mainModel.addObserver(mainWindow);
         mainWindow.addConnectButtonListener(onConnectButtonClick);
