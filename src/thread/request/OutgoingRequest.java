@@ -11,8 +11,8 @@ public class OutgoingRequest {
     private final boolean accepted;
 
     private static final String correctReq = "<request></request>";
-    private static final String acceptReq = "<request answer=\"yes\"></request>";
-    private static final String denyReq = "<request answer=\"no\"></request>";
+    private static final String acceptReq = "<request reply=\"yes\"></request>";
+    private static final String denyReq = "<request reply=\"no\"></request>";
 
     public Socket getSocket() {
         return socket;
@@ -36,7 +36,7 @@ public class OutgoingRequest {
         } else if(received.equals(denyReq)) {
             return false;
         } else {
-            throw new IOException("Bad answer XML");
+            throw new IOException("Bad reply XML");
         }
     }
 
