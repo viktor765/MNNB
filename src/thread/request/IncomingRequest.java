@@ -8,6 +8,8 @@ import java.net.Socket;
 
 public class IncomingRequest {
     private final Socket socket;
+    private boolean hasReplied = false;
+
     private static final String correctReq = "<request></request>";
     private static final String acceptReq = "<request reply=\"yes\"></request>";
     private static final String denyReq = "<request reply=\"no\"></request>";
@@ -21,6 +23,10 @@ public class IncomingRequest {
     }
 
     private void sendReply(boolean accept) throws IOException {
+        if(hasReplied) {
+            throw new IOException("Has already replied");
+        }
+
         PrintWriter out = new PrintWriter(socket.getOutputStream(), true);
 
         if(accept) {
@@ -28,6 +34,8 @@ public class IncomingRequest {
         } else {
             out.println(denyReq);
         }
+
+        hasReplied = true;
     }
 
     public void accept() throws IOException {
