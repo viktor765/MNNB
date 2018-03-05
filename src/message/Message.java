@@ -1,14 +1,15 @@
 package message;
 
-import java.awt.Color;
-import java.io.ByteArrayInputStream;
-import java.io.IOException;
-import java.nio.charset.StandardCharsets;
+import org.w3c.dom.Document;
+import org.xml.sax.SAXException;
+
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
-import org.w3c.dom.Document;
-import org.xml.sax.SAXException;
+import java.awt.*;
+import java.io.ByteArrayInputStream;
+import java.io.IOException;
+import java.nio.charset.StandardCharsets;
 
 public class Message {
     private final Color color;
@@ -49,7 +50,8 @@ public class Message {
                         .replaceAll("<(?!(message|text)).*?>"//clears all incompatible tags in text
                             + ".*" 
                             + "<(?!(\\/(message|text))).*?>", "")
-                        .replaceAll("&gt;", ">").replaceAll("&lt;", "<");
+                        .replaceAll("&gt;", ">").replaceAll("&lt;", "<")
+                        .replaceAll("&", "&amp;");
         this.sender = sender;
         this.color = color;
     }
@@ -82,7 +84,9 @@ public class Message {
         disconnect = false;
 
         this.text = doc.getDocumentElement().getTextContent()
-                .replaceAll("&gt;", ">").replaceAll("&lt;", "<");
+                .replaceAll("&gt;", ">")
+                .replaceAll("&lt;", "<")
+                .replaceAll("&amp;", "&");
 
         this.color = new Color(Integer.parseInt(
                 doc.getElementsByTagName("text").item(0)
