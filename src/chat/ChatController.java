@@ -1,11 +1,8 @@
 package chat;
 
 import thread.ChatThread;
-import thread.HostChatThread;
 
 import java.awt.event.ActionEvent;
-import java.net.InetAddress;
-import java.net.UnknownHostException;
 
 public class ChatController {
     private final ChatThread chatThread;
@@ -39,18 +36,5 @@ public class ChatController {
 
     public ChatController(ChatThread chatThread) {
         this(chatThread, new ChatPanel(chatThread));
-    }
-
-    public ChatController(HostChatThread hostChatThread) {
-        this(hostChatThread, HostChatPanel.getInstance(hostChatThread));
-
-        //chatThread.kick tar nu en InetAddress från chatThread.getAddresses()
-        ((HostChatPanel)getChatPanel()).addKickListener((ActionEvent e) -> {
-            try {
-                hostChatThread.kick(InetAddress.getByName(e.getActionCommand()));
-            } catch (UnknownHostException ex) {
-                System.out.println("Not an IP address");
-            }
-        });
     }
 }

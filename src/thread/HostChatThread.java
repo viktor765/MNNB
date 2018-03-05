@@ -1,5 +1,7 @@
 package thread;
 
+import thread.request.OutgoingRequest;
+
 import java.io.IOException;
 import java.net.InetAddress;
 import java.net.Socket;
@@ -30,10 +32,14 @@ public class HostChatThread extends ChatThread {
 
     public static HostChatThread getInstance(ServerThread serverThread, int port) throws IOException {
         if(instance == null) {
-            Socket socket = new Socket(localHost, port);
-            instance = new HostChatThread(socket, serverThread);
+            OutgoingRequest outgoingRequest = new OutgoingRequest(localHost, port);
 
-            return instance;
+            if(outgoingRequest.isAccepted()) {
+                instance = new HostChatThread(outgoingRequest.getSocket(), serverThread);
+                return instance;
+            } else {
+                throw new IOException("outgoingRequest was not accepted.");
+            }
         } else {
             throw new IOException("HostChatThread instance already exists.");
         }

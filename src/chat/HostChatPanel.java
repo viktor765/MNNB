@@ -8,6 +8,8 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.net.InetAddress;
+import java.util.List;
+import java.util.stream.Collectors;
 
 public class HostChatPanel extends ChatPanel {
     private final JButton kickButton;
@@ -15,10 +17,20 @@ public class HostChatPanel extends ChatPanel {
 
     public void addKickListener(ActionListener actionListener) {
         kickButton.addActionListener((ActionEvent e) -> {
-            InetAddress kickedIp = (InetAddress) JOptionPane.showInputDialog(this.getMyFrame(), "Choose client to kick:", "Kick",
-                    JOptionPane.QUESTION_MESSAGE, null, chatThread.getAddresses().toArray(), chatThread.getAddresses().get(0));
+            List<String> addresses = chatThread.getAddresses().stream()
+                    .map(inetAddress -> inetAddress.toString())
+                    .map(address -> address.substring(1))
+                    .collect(Collectors.toList());
+
+            Object[] a = addresses.toArray();
+
+            InetAddress kickedIp = (InetAddress) JOptionPane.showInputDialog(
+                    this.getMyFrame(), "Choose client to kick:", "Kick",
+                    JOptionPane.QUESTION_MESSAGE, null, chatThread.getAddresses().toArray(), addresses.get(0));
             if(kickedIp != null) {
-                actionListener.actionPerformed(new ActionEvent(kickButton, (int) AWTEvent.TEXT_EVENT_MASK, kickedIp.toString()));
+                actionListener.actionPerformed(new ActionEvent(
+                        kickButton, (int) AWTEvent.TEXT_EVENT_MASK, kickedIp.toString().substring(1)
+                ));
             }
         });
     }

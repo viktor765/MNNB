@@ -1,44 +1,71 @@
 package thread;
 
 import message.Message;
+import thread.request.IncomingRequest;
 
+import java.awt.*;
 import java.io.IOException;
 import java.net.InetAddress;
 import java.net.ServerSocket;
 import java.net.Socket;
-import java.util.*;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Observable;
+import java.util.Observer;
 import java.util.stream.Collectors;
 
-class ServerThread implements Runnable, Observer {
+class ServerThread extends Observable implements Runnable, Observer {
     private ServerSocket serverSocket;
     private final List<ConnectionThread> clientThreads = new LinkedList<>();
 
     public void kickClient(InetAddress address) {
-        ConnectionThread client = clientThreads.stream()
-                .filter(connectionThread -> connectionThread.getAddress() == address)
-                .findFirst().get();
+        System.out.println("kicked");
 
-        client.disconnect();
-        clientThreads.remove(client);
+        for (ConnectionThread client : clientThreads) {
+            if(client.getAddress().toString().equals(address.toString())) {
+                client.sendString(new Message("You have been kicked.", "host", Color.GRAY).toXML());
+                client.disconnect();
+                clientThreads.remove(client);
+            }
+        }
     }
 
     public List<InetAddress> getAddresses() {
         return clientThreads.stream()
-                .map(connectionThread -> connectionThread.getAddress())
-                //.filter(InetAddress::isAnyLocalAddress)//Är kommenterat av testskäl
+                .map(ConnectionThread::getAddress)
+                .filter(inetAddress -> inetAddress.toString() != "/127.0.0.1")
                 .collect(Collectors.toList());
     }
 
-    private void acceptClient() {
+    public void accept(IncomingRequest request) {
         try {
-            Socket clientSocket = serverSocket.accept();
-            ConnectionThread connectionThread = new ConnectionThread(clientSocket);
-            clientThreads.add(connectionThread);//temporärt, måste göras med <request>
+            request.accept();
+
+            ConnectionThread connectionThread = new ConnectionThread(request.getSocket());
+            clientThreads.add(connectionThread);
             connectionThread.addObserver(this);
 
             new Thread(connectionThread).start();
         } catch (IOException e) {
             e.printStackTrace();
+        }
+    }
+
+    private void acceptClient() {
+        try {
+            Socket socket = serverSocket.accept();
+            IncomingRequest incomingRequest = new IncomingRequest(socket);
+
+            if(socket.getInetAddress().toString().equals("/127.0.0.1")) {//acceptera localhost automatiskt
+                this.accept(incomingRequest);
+            } else {
+                setChanged();
+                notifyObservers(incomingRequest);
+            }
+        } catch (IOException e) {
+            System.err.println(e);
+        } catch (Exception e) {
+            System.err.println(e);
         }
     }
 

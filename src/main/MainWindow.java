@@ -1,10 +1,16 @@
 package main;
 
+import thread.MainModel;
+import thread.request.IncomingRequest;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionListener;
+import java.io.IOException;
+import java.util.Observable;
+import java.util.Observer;
 
-public class MainWindow extends JPanel {
+public class MainWindow extends JPanel implements Observer {
     private final JFrame frame = new JFrame("Instant Messenger");
     private final JButton connectButton = new JButton("Anslut till Chat");
 
@@ -26,6 +32,31 @@ public class MainWindow extends JPanel {
         frame.setLocationRelativeTo(null);
         frame.pack();
         frame.setVisible(true);
+    }
+
+    @Override
+    public void update(Observable o, Object message) {
+        if(message instanceof IncomingRequest && o instanceof MainModel) {
+            prompt((IncomingRequest)message);
+        }
+    }
+
+    private void prompt(IncomingRequest incomingRequest) {
+        int dialogResult = JOptionPane.showConfirmDialog(
+                null,
+                "Allow " + incomingRequest.getIP() + " to connect?",
+                "Incoming connection",
+                JOptionPane.YES_NO_OPTION
+        );
+        if(dialogResult == JOptionPane.YES_OPTION) {
+            try {
+                MainModel.getInstance(4444).accept(incomingRequest);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        } else {
+            System.out.println("You did not accept");
+        }
     }
 
     private static MainWindow instance = null;

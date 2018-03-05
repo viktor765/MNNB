@@ -10,7 +10,6 @@ public class HostChatController extends ChatController {
     private HostChatController(HostChatThread hostChatThread) {
         super(hostChatThread, HostChatPanel.getInstance(hostChatThread));
 
-        //chatThread.kick tar nu en InetAddress från chatThread.getAddresses()
         ((HostChatPanel)getChatPanel()).addKickListener((ActionEvent e) -> {
             try {
                 hostChatThread.kick(InetAddress.getByName(e.getActionCommand()));

@@ -26,7 +26,6 @@ class ConnectionThread extends Observable implements Runnable {
     }
 
     public void disconnect() {
-        //ev skicka ett meddelande
         done = true;
         try {
             socket.close();
@@ -85,7 +84,7 @@ class ConnectionThread extends Observable implements Runnable {
             e.printStackTrace();
         }
 
-        done = true;//för säkerhets skull map isDone()
+        done = true;//för säkerhets skull
 
         setChanged();
         notifyObservers("done");

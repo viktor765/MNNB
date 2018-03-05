@@ -91,7 +91,7 @@ public class ChatThread extends Observable implements Runnable {
             e.printStackTrace();
         }
 
-        done = true;//för säkerhets skull map isDone()
+        done = true;//för säkerhets skull
 
         setChanged();
         notifyObservers("done");
