@@ -47,11 +47,11 @@ public class Message {
     }
     
     public Message(String text, String sender, Color color) {
-        this.text = text.replaceAll("<\\/?(kursiv|fetstil).*?>", "")
+        this.text = text.replaceAll(">", "&gt;").replaceAll("<;", "&lt;")
+                        .replaceAll("<\\/?(kursiv|fetstil).*?>", "")
                         .replaceAll("<(?!(message|text)).*?>"//clears all incompatible tags in text
                             + ".*" 
-                            + "<(?!(\\/(message|text))).*?>", "")
-                        .replaceAll("&gt;", ">").replaceAll("&lt;", "<");
+                            + "<(?!(\\/(message|text))).*?>", "");
 
         this.sender = sender;
         this.color = color;
