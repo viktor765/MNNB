@@ -42,6 +42,7 @@ public class Message {
             + "<text color=\"" + color.getRGB() + "\">" 
             + text.replaceAll(">", "&gt;")
                   .replaceAll("<", "&lt;")
+                  .replaceAll("&", "&amp;")
             + "</text></message>";
     }
     
@@ -50,8 +51,8 @@ public class Message {
                         .replaceAll("<(?!(message|text)).*?>"//clears all incompatible tags in text
                             + ".*" 
                             + "<(?!(\\/(message|text))).*?>", "")
-                        .replaceAll("&gt;", ">").replaceAll("&lt;", "<")
-                        .replaceAll("&", "&amp;");
+                        .replaceAll("&gt;", ">").replaceAll("&lt;", "<");
+
         this.sender = sender;
         this.color = color;
     }
@@ -61,7 +62,7 @@ public class Message {
         factory.setValidating(true);
         factory.setIgnoringElementContentWhitespace(true);
         DocumentBuilder builder = factory.newDocumentBuilder();
-        //File file = new File("test.xml");
+
         builder.setErrorHandler(null);
         
         xml = xml.replaceAll("<\\/?(kursiv|fetstil).*?>", "")
@@ -85,8 +86,7 @@ public class Message {
 
         this.text = doc.getDocumentElement().getTextContent()
                 .replaceAll("&gt;", ">")
-                .replaceAll("&lt;", "<")
-                .replaceAll("&amp;", "&");
+                .replaceAll("&lt;", "<");
 
         this.color = new Color(Integer.parseInt(
                 doc.getElementsByTagName("text").item(0)
