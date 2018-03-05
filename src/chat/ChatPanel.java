@@ -78,7 +78,7 @@ public class ChatPanel extends JPanel implements Observer{
 
         try {
             if(mes.isDisconnect()) {
-                doc.insertString(doc.getLength(), mes.getSender() + " har loggat ut.\n", keyWord);
+                doc.insertString(doc.getLength(), mes.getSender() + " has logged out.\n", keyWord);
             } else {
                 doc.insertString(doc.getLength(), mes.getSender()
                         + ": " + mes.getText() + "\n", keyWord);
