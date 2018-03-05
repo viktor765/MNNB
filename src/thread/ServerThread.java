@@ -33,7 +33,7 @@ class ServerThread extends Observable implements Runnable, Observer {
     public List<InetAddress> getAddresses() {
         return clientThreads.stream()
                 .map(ConnectionThread::getAddress)
-                .filter(inetAddress -> inetAddress.toString() != "/127.0.0.1")
+                .filter(inetAddress -> !inetAddress.toString().equals("/127.0.0.1"))
                 .collect(Collectors.toList());
     }
 
